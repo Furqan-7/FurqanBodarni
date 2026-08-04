@@ -653,5 +653,38 @@
   }
 })();
 </script>
+
+<script>
+(() => {
+  // Hash scroll protection for custom sections (like #skills)
+  function handleHashScroll() {
+    const hash = window.location.hash ? window.location.hash.slice(1) : '';
+    if (!hash) return;
+
+    const targetEl = document.getElementById(hash);
+    if (!targetEl) return;
+
+    // Smooth scroll to target section if hash is active
+    setTimeout(() => {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  // Handle initial page load with hash
+  if (window.location.hash) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', handleHashScroll);
+    } else {
+      handleHashScroll();
+    }
+    // Re-verify after Framer React hydration completes (~2.5s)
+    setTimeout(handleHashScroll, 1000);
+    setTimeout(handleHashScroll, 2500);
+  }
+
+  // Handle hash changes (clicking nav links)
+  window.addEventListener('hashchange', handleHashScroll);
+})();
+</script>
 </body>
 </html>
