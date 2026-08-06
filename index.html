@@ -536,6 +536,146 @@
         </p>
       </div>
 
+    <!-- Projects Showcase Section -->
+    <section id="projects" class="projects-showcase-section" style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 60px 0; box-sizing: border-box; position: relative; z-index: 10;">
+      <style>
+        .project-card {
+          border: 1px solid rgba(225, 95, 95, 0.22) !important;
+          box-shadow: 0 0 24px 0 rgba(225, 85, 85, 0.14), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+          transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        .project-card:hover {
+          border-color: rgba(235, 110, 110, 0.45) !important;
+          box-shadow: 0 0 36px 0 rgba(230, 90, 90, 0.28), 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+          transform: translateY(-4px);
+        }
+        .github-icon-link {
+          color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+          opacity: 0.7;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .github-icon-link:hover {
+          opacity: 1 !important;
+          transform: scale(1.15);
+        }
+        .project-title-link {
+          color: inherit;
+          text-decoration: none;
+          transition: opacity 0.2s ease;
+        }
+        .project-title-link:hover {
+          opacity: 0.85;
+        }
+      </style>
+
+      <div class="projects-showcase-wrapper" style="display: flex; flex-direction: column; gap: 40px; width: 100%; max-width: 1180px; align-items: center; box-sizing: border-box;">
+        
+        <!-- Section Header -->
+        <div class="projects-showcase-header" style="text-align: center;">
+          <h4 style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.6; margin: 0 0 8px 0;">/* FEATURED PROJECTS */</h4>
+          <h2 style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); margin: 0;">PROJECTS SHOWCASE</h2>
+        </div>
+
+        <!-- 2x2 Grid -->
+        <div class="projects-showcase-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; width: 100%; box-sizing: border-box;">
+          
+          <!-- TOP ROW: Box 1 - Brainly AI -->
+          <div class="project-card live-card" style="display: flex; flex-direction: column; border-radius: 16px; padding: 18px; background: rgba(255, 255, 255, 0.01); box-sizing: border-box;">
+            <!-- Live Preview Container -->
+            <a href="https://brainly-ai-frontend.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; border-radius: 12px; overflow: hidden;">
+              <div class="preview-area live-preview" style="height: 360px; border-radius: 12px; overflow: hidden; position: relative; background: #08080a; border: 1px solid rgba(217, 217, 200, 0.12); width: 100%; box-sizing: border-box;">
+                <iframe src="https://brainly-ai-frontend.vercel.app/" title="Brainly AI Live Preview" loading="lazy" style="width: 200%; height: 200%; transform: scale(0.5); transform-origin: top left; border: 0; pointer-events: none;"></iframe>
+              </div>
+            </a>
+            
+            <!-- Info Area -->
+            <div class="project-info" style="padding: 18px 8px 6px 8px; display: flex; flex-direction: column; gap: 10px;">
+              <!-- Title & GitHub Link Row -->
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <h3 style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); margin: 0;">
+                  <a href="https://brainly-ai-frontend.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-title-link">Brainly AI</a>
+                </h3>
+                <a href="https://github.com/Furqan-7/Brainly-AI" target="_blank" rel="noopener noreferrer" title="View Source on GitHub" class="github-icon-link" style="display: inline-flex; align-items: center; justify-content: center; padding: 4px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- Description -->
+              <p style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 14px; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.7; margin: 0; line-height: 1.5;">
+                Brainly is a Second Brain designed to solve digital fragmentation. Valuable information — resumes, tweets, YouTube tutorials, research papers — is scattered across platforms. Brainly centralizes this data into a single, intelligent knowledge base.
+              </p>
+
+              <!-- Tech Stack -->
+              <div style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.55; margin-top: 4px;">
+                TYPESCRIPT · JAVASCRIPT · NEXT.JS · TAILWIND CSS · POSTGRESQL · GEMINI API
+              </div>
+            </div>
+          </div>
+
+          <!-- TOP ROW: Box 2 - Find Your Portfolio -->
+          <div class="project-card live-card" style="display: flex; flex-direction: column; border-radius: 16px; padding: 18px; background: rgba(255, 255, 255, 0.01); box-sizing: border-box;">
+            <!-- Live Preview Container -->
+            <a href="https://findyourportfolio.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none; border-radius: 12px; overflow: hidden;">
+              <div class="preview-area live-preview" style="height: 360px; border-radius: 12px; overflow: hidden; position: relative; background: #08080a; border: 1px solid rgba(217, 217, 200, 0.12); width: 100%; box-sizing: border-box;">
+                <iframe src="https://findyourportfolio.vercel.app/" title="Find Your Portfolio Live Preview" loading="lazy" style="width: 200%; height: 200%; transform: scale(0.5); transform-origin: top left; border: 0; pointer-events: none;"></iframe>
+              </div>
+            </a>
+
+            <!-- Info Area -->
+            <div class="project-info" style="padding: 18px 8px 6px 8px; display: flex; flex-direction: column; gap: 10px;">
+              <!-- Title & GitHub Link Row -->
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <h3 style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); margin: 0;">
+                  <a href="https://findyourportfolio.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-title-link">Find Your Portfolio</a>
+                </h3>
+                <a href="https://github.com/Furqan-7/FindYourPortfolio" target="_blank" rel="noopener noreferrer" title="View Source on GitHub" class="github-icon-link" style="display: inline-flex; align-items: center; justify-content: center; padding: 4px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- Description -->
+              <p style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 14px; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.7; margin: 0; line-height: 1.5;">
+                A high-performance, responsive directory of 1,578 real developer portfolio sites, indexed from an open-source GitHub collection. Built with pure Vanilla HTML, CSS, and ES2022 JavaScript with zero external frameworks and pre-generated WebP preview screenshots.
+              </p>
+
+              <!-- Tech Stack -->
+              <div style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.55; margin-top: 4px;">
+                JAVASCRIPT · HTML · CSS · MONGODB
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM ROW: Box 3 - Coming Soon Placeholder -->
+          <div class="project-card placeholder-card" style="display: flex; flex-direction: column; border-radius: 16px; padding: 18px; background: rgba(255, 255, 255, 0.01); box-sizing: border-box;">
+            <div class="preview-area placeholder-preview" style="height: 360px; border-radius: 12px; background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(217, 217, 200, 0.12); display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;">
+              <span style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 13px; letter-spacing: 0.15em; opacity: 0.35; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));">Preview Coming Soon</span>
+            </div>
+            <div class="project-info" style="padding: 18px 8px 6px 8px; display: flex; flex-direction: column; gap: 10px;">
+              <h3 style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.7; margin: 0;">Coming Soon</h3>
+              <p style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 14px; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.5; margin: 0; line-height: 1.5;">Next full-stack web application in active development</p>
+            </div>
+          </div>
+
+          <!-- BOTTOM ROW: Box 4 - Coming Soon Placeholder -->
+          <div class="project-card placeholder-card" style="display: flex; flex-direction: column; border-radius: 16px; padding: 18px; background: rgba(255, 255, 255, 0.01); box-sizing: border-box;">
+            <div class="preview-area placeholder-preview" style="height: 360px; border-radius: 12px; background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(217, 217, 200, 0.12); display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;">
+              <span style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 13px; letter-spacing: 0.15em; opacity: 0.35; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));">Preview Coming Soon</span>
+            </div>
+            <div class="project-info" style="padding: 18px 8px 6px 8px; display: flex; flex-direction: column; gap: 10px;">
+              <h3 style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.7; margin: 0;">Coming Soon</h3>
+              <p style="font-family: 'Helvetica Neue LT Pro 55 Roman', 'Helvetica LT Narrow Regular', sans-serif; font-size: 14px; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.5; margin: 0; line-height: 1.5;">Upcoming AI &amp; cloud architecture project</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
       <div class="skills-group">
         <h4 style="font-family: 'Helvetica LT Narrow Regular', 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); opacity: 0.6; margin: 0 0 12px 0;">ENGINEERING PRACTICES</h4>
         <p style="font-family: 'Helvetica Neue LT Pro 55 Roman', sans-serif; font-size: clamp(24px, 4vw, 42px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; text-transform: uppercase; color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)); margin: 0;">
