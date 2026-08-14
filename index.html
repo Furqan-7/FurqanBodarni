@@ -7,14 +7,35 @@
 	<script src="js/rerouter.js"></script>
 	<meta charset="utf-8">
 	
-	
+	<script>
+		(() => {
+			const SITE_TITLE = "Furqan Bodarni — Full-Stack Developer";
+			document.title = SITE_TITLE;
+			try {
+				let currentTitle = SITE_TITLE;
+				Object.defineProperty(document, 'title', {
+					get: () => currentTitle,
+					set: (val) => {
+						if (val && (val.includes('Stefan') || val.includes('Designer') || !val.includes('Furqan'))) {
+							currentTitle = SITE_TITLE;
+						} else {
+							currentTitle = val || SITE_TITLE;
+						}
+						const titleEl = document.querySelector('title');
+						if (titleEl) titleEl.textContent = currentTitle;
+					},
+					configurable: true
+				});
+			} catch(e) {}
+		})();
+	</script>
 	
 	<!-- Start of headStart -->
     
     <!-- End of headStart -->
 	<meta name="viewport" content="width=device-width">
 	<meta name="generator" content="Framer 8b16de8">
-	<title>Furqan Bodarni - Full-Stack Developer</title>
+	<title>Furqan Bodarni — Full-Stack Developer</title>
     <meta name="description" content="&quot;I think I like when it rains&quot; &amp; I love helping passionate souls show the world how cool is the thing they're doing by empathy-driven design">
     <meta name="framer-search-index" content="js/searchindex-jk4sdhtfvkps.json">
     <meta name="framer-search-index-fallback" content="js/searchindex-60qkxtarhgkz.json">
@@ -22,12 +43,12 @@
     <link href="images/89hrnmy0mo2igucoii2x5bwdeow.webp" rel="icon" media="(prefers-color-scheme: dark)">
     <!-- Open Graph / Facebook -->
     
-    <meta property="og:title" content="Furqan Bodarni - Full-Stack Developer">
+    <meta property="og:title" content="Furqan Bodarni — Full-Stack Developer">
     <meta property="og:description" content="&quot;I think I like when it rains&quot; &amp; I love helping passionate souls show the world how cool is the thing they're doing by empathy-driven design">
     <meta property="og:image" content="images/jjqg1lqeznusmo1xwolncyhsfye.webp">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Furqan Bodarni - Full-Stack Developer">
+    <meta name="twitter:title" content="Furqan Bodarni — Full-Stack Developer">
     <meta name="twitter:description" content="&quot;I think I like when it rains&quot; &amp; I love helping passionate souls show the world how cool is the thing they're doing by empathy-driven design">
     <meta name="twitter:image" content="images/jjqg1lqeznusmo1xwolncyhsfye.webp">
 	
