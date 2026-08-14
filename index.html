@@ -618,6 +618,16 @@
   .framer-1aitxop p, [data-framer-name="japanese"] p {
     transition: opacity 0.35s ease-in-out !important;
   }
+
+  /* Fix: Hide the Ornament-light decorative element (position:absolute; bottom:-32px)
+     which bleeds out of the hero boundary and renders as a stray asterisk/star
+     near adjacent sections. Targeted directly by its unique Framer class. */
+  .framer-Kh64q .framer-1y3c7bq {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 </style>
 <script>
 (() => {
@@ -1193,6 +1203,454 @@
       </div>
     </div>
   </section>
+
+  <!-- Contact Section (Seamless Editorial Theme Redesign) -->
+  <section id="contact" class="contact-section">
+    <style>
+      .contact-section {
+        width: 100%;
+        max-width: 100vw;
+        background-color: var(--token-0376ca07-2375-44eb-afac-1b20c8817165, #020407) !important;
+        background: var(--token-0376ca07-2375-44eb-afac-1b20c8817165, #020407) !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 170px 24px 190px 24px !important;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+      }
+
+      /* Ambient Background: Organic Botanical & Hand Silhouettes */
+      .contact-ambient-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .contact-trail-left {
+        position: absolute;
+        top: 8%;
+        left: -60px;
+        width: 420px;
+        height: 420px;
+        opacity: 0.08;
+        filter: blur(0.5px);
+        animation: contactFloatLeft 18s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+      .contact-trail-right {
+        position: absolute;
+        bottom: 4%;
+        right: -70px;
+        width: 460px;
+        height: 460px;
+        opacity: 0.08;
+        filter: blur(0.5px);
+        animation: contactFloatRight 22s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+      .contact-trail-svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      .contact-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Editorial Status Badge with Slowly Rotating Asterisk */
+      .contact-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 16px;
+        border-radius: 999px;
+        background: rgba(217, 217, 200, 0.04);
+        border: 1px solid rgba(217, 217, 200, 0.22);
+        color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        font-family: "Helvetica Neue LT Std 65 Medium", "Helvetica Neue LT Pro 55 Roman", -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 28px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        line-height: 1;
+        transition: border-color 0.3s ease, background 0.3s ease;
+      }
+      .contact-badge-pill:hover {
+        border-color: rgba(217, 217, 200, 0.45);
+        background: rgba(217, 217, 200, 0.08);
+      }
+      .contact-badge-star {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 13px;
+        height: 13px;
+        animation: contactRotateAsterisk 24s linear infinite;
+        transform-origin: center;
+        color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+      }
+      .contact-badge-star svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* Main Display Heading - Matching "FURQAN * BODARNI" & "I'D RATHER BUILD IT" */
+      .contact-heading {
+        font-family: "Helvetica Neue LT Std 65 Medium", "Helvetica Neue LT Pro 55 Roman", -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-size: clamp(46px, 8.6vw, 108px) !important;
+        font-weight: 500 !important;
+        line-height: 0.94 !important;
+        letter-spacing: -0.04em !important;
+        text-transform: uppercase !important;
+        color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)) !important;
+        margin: 0 0 26px 0 !important;
+        text-align: center !important;
+        position: relative !important;
+        word-break: break-word;
+      }
+      .contact-heading::before,
+      .contact-heading::after,
+      .contact-wrapper::before,
+      .contact-wrapper::after {
+        content: none !important;
+        display: none !important;
+      }
+
+      /* Supporting Subtext - Uppercase Editorial Typography */
+      .contact-subtext {
+        font-family: "Helvetica Neue LT Pro 55 Roman", "Helvetica Neue LT Std 65 Medium", -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-size: clamp(14px, 1.8vw, 17px);
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        line-height: 1.48;
+        text-transform: uppercase;
+        color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        opacity: 0.72;
+        max-width: 680px;
+        margin: 0 0 46px 0;
+        text-align: center;
+      }
+
+      /* Action Buttons Group */
+      .contact-actions-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Interactive Contact Icon Bar */
+      .contact-icon-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 4px;
+        position: relative;
+        z-index: 30;
+      }
+      .contact-icon-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Rounded-Square Icon Button */
+      .contact-icon-btn {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        background: var(--token-0376ca07-2375-44eb-afac-1b20c8817165, #020407);
+        border: 1.5px solid rgba(217, 217, 200, 0.22);
+        color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-sizing: border-box;
+        cursor: pointer;
+        will-change: transform, background, color, border-color, box-shadow;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      }
+      .contact-icon-btn:hover {
+        background: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        border-color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        color: var(--token-0376ca07-2375-44eb-afac-1b20c8817165, #020407);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 28px rgba(217, 217, 200, 0.22);
+      }
+      .contact-icon-btn:active {
+        transform: translateY(-1px) scale(0.97);
+      }
+
+      /* Hover Tooltip Bubble */
+      .contact-tooltip {
+        position: absolute;
+        bottom: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%) translateY(6px);
+        background: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200));
+        color: var(--token-0376ca07-2375-44eb-afac-1b20c8817165, #020407);
+        font-family: "Helvetica Neue LT Std 65 Medium", "Helvetica Neue LT Pro 55 Roman", -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 6px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.25s;
+        z-index: 50;
+      }
+      .contact-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 5px 5px 0 5px;
+        border-style: solid;
+        border-color: var(--token-b1fd679d-6cef-4e4a-b778-881316ccfe6e, rgb(217, 217, 200)) transparent transparent transparent;
+      }
+      .contact-icon-item:hover .contact-tooltip,
+      .contact-icon-item:focus-within .contact-tooltip {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* Special Email Tooltip with Copy Button */
+      .contact-tooltip-email {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 8px 5px 12px;
+        text-transform: none;
+        letter-spacing: normal;
+        font-size: 12px;
+      }
+      .email-address-text {
+        font-family: 'Helvetica Neue LT Pro 55 Roman', -apple-system, sans-serif;
+        font-weight: 500;
+        color: #020407;
+        user-select: all;
+      }
+      .tooltip-copy-btn {
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 3px 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: #020407;
+        border-radius: 4px;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .tooltip-copy-btn:hover {
+        background: rgba(2, 4, 7, 0.14);
+        transform: scale(1.08);
+      }
+      .tooltip-copy-btn:active {
+        transform: scale(0.95);
+      }
+      .copy-status-label {
+        font-family: "Helvetica Neue LT Std 65 Medium", sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      /* Keyframe Animations */
+      @keyframes contactRotateAsterisk {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes contactFloatLeft {
+        0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        50% { transform: translate(25px, 15px) rotate(4deg) scale(1.04); }
+        100% { transform: translate(-10px, 30px) rotate(-3deg) scale(0.98); }
+      }
+      @keyframes contactFloatRight {
+        0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        50% { transform: translate(-25px, -15px) rotate(-5deg) scale(1.05); }
+        100% { transform: translate(10px, -25px) rotate(4deg) scale(0.97); }
+      }
+
+      /* Entrance Scroll Animation (Staggered Motion Reveal) */
+      .reveal-element {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      .contact-section.is-revealed .reveal-element {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .contact-badge-pill.reveal-element { transition-delay: 0ms; }
+      .contact-heading.reveal-element { transition-delay: 140ms; }
+      .contact-subtext.reveal-element { transition-delay: 280ms; }
+      .contact-icon-bar.reveal-element { transition-delay: 420ms; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-element {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        .contact-badge-star,
+        .contact-trail-left,
+        .contact-trail-right {
+          animation: none !important;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .contact-section { padding: 120px 20px 140px 20px !important; }
+        .contact-heading { font-size: clamp(34px, 7.5vw, 60px) !important; }
+        .contact-subtext { font-size: 14px; margin-bottom: 38px; }
+        .contact-trail-left,
+        .contact-trail-right { width: 300px; height: 300px; opacity: 0.05; }
+      }
+      @media (max-width: 520px) {
+        .contact-section { padding: 96px 16px 120px 16px !important; }
+        .contact-icon-bar { gap: 12px; }
+        .contact-icon-btn { width: 48px; height: 48px; }
+      }
+    </style>
+
+    <!-- Ambient Organic Background Layer -->
+    <div class="contact-ambient-bg" aria-hidden="true">
+      <div class="contact-trail-left">
+        <img src="images/plant-leaf-silhouette.svg" alt="" class="contact-trail-svg" />
+      </div>
+      <div class="contact-trail-right">
+        <img src="images/b401ssxi1khhrcpbwj1gx82raag.svg" alt="" class="contact-trail-svg" />
+      </div>
+    </div>
+
+    <div class="contact-wrapper">
+      <!-- Top Badge / Connect Status with Rotating Starburst Motif -->
+      <div class="contact-badge-pill reveal-element">
+        <span class="contact-badge-star">
+          <svg width="13" height="13" viewBox="0 0 32 32" fill="currentColor">
+            <path d="m18.632 13.064 11.263-4.27L32 13.918l-11.474 4.057 6.948 9.715L23.158 31l-7.263-10.25L9.053 31l-4.737-3.31 6.842-9.715L0 13.918l1.895-5.124 11.158 4.27V1h5.579z"/>
+          </svg>
+        </span>
+        <span>LET&rsquo;S CONNECT</span>
+      </div>
+      
+      <!-- Main Condensed Bold Headline -->
+      <h2 class="contact-heading reveal-element">
+        LET&rsquo;S BUILD<br />SOMETHING GREAT
+      </h2>
+      
+      <!-- Supporting Uppercase Condensed Editorial Copy -->
+      <p class="contact-subtext reveal-element">
+        I BUILD FAST, THOUGHTFUL DIGITAL EXPERIENCES &mdash; FROM THE FIRST LINE OF CODE TO THE FINAL PIXEL.
+      </p>
+
+      <!-- Hover-Reveal Contact Icon Bar (X, LinkedIn, Gmail with Copy Tooltip, GitHub) -->
+      <div class="contact-icon-bar reveal-element">
+        <!-- 1. X (Twitter) -->
+        <div class="contact-icon-item">
+          <div class="contact-tooltip" role="tooltip">X</div>
+          <a href="https://x.com/B_Furqan07" target="_blank" rel="noopener noreferrer" class="contact-icon-btn" aria-label="X (Twitter)">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- 2. LinkedIn -->
+        <div class="contact-icon-item">
+          <div class="contact-tooltip" role="tooltip">LinkedIn</div>
+          <a href="https://www.linkedin.com/in/furqan-bodarni-132378327/" target="_blank" rel="noopener noreferrer" class="contact-icon-btn" aria-label="LinkedIn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- 3. Gmail with Copy-to-Clipboard Action in Tooltip -->
+        <div class="contact-icon-item contact-icon-item-email">
+          <div class="contact-tooltip contact-tooltip-email" role="tooltip" id="email-tooltip">
+            <span class="email-address-text">bodarnifurqan07@gmail.com</span>
+            <button type="button" class="tooltip-copy-btn" id="copy-email-btn" title="Copy email address" aria-label="Copy email address">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon-svg">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="copied-icon-svg" style="display: none;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="copy-status-label" style="display: none;">COPIED</span>
+            </button>
+          </div>
+          <a href="mailto:bodarnifurqan07@gmail.com" class="contact-icon-btn" aria-label="Send email to bodarnifurqan07@gmail.com">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.272H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- 4. GitHub -->
+        <div class="contact-icon-item">
+          <div class="contact-tooltip" role="tooltip">GitHub</div>
+          <a href="https://github.com/Furqan-7" target="_blank" rel="noopener noreferrer" class="contact-icon-btn" aria-label="GitHub">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -1346,6 +1804,62 @@
     }
   }
 
+  function initContactRevealObserver() {
+    const contactSection = document.getElementById('contact');
+    if (!contactSection) return;
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            contactSection.classList.add('is-revealed');
+            observer.unobserve(contactSection);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      observer.observe(contactSection);
+    } else {
+      contactSection.classList.add('is-revealed');
+    }
+  }
+
+  function initEmailCopy() {
+    const copyBtn = document.getElementById('copy-email-btn');
+    if (!copyBtn || copyBtn.__initialized) return;
+    copyBtn.__initialized = true;
+
+    copyBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const email = 'bodarnifurqan07@gmail.com';
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch (err) {
+        const input = document.createElement('input');
+        input.value = email;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+
+      const copySvg = copyBtn.querySelector('.copy-icon-svg');
+      const checkSvg = copyBtn.querySelector('.copied-icon-svg');
+      const label = copyBtn.querySelector('.copy-status-label');
+
+      if (copySvg) copySvg.style.display = 'none';
+      if (checkSvg) checkSvg.style.display = 'inline-block';
+      if (label) label.style.display = 'inline-block';
+
+      setTimeout(() => {
+        if (copySvg) copySvg.style.display = 'inline-block';
+        if (checkSvg) checkSvg.style.display = 'none';
+        if (label) label.style.display = 'none';
+      }, 2000);
+    });
+  }
+
   function injectSections() {
     if (document.getElementById('activity')) {
       return;
@@ -1362,6 +1876,8 @@
       projectsSection.after(clone);
       renderLeetCodeHeatmap(null);
       fetchLiveLeetCodeStats();
+      initContactRevealObserver();
+      initEmailCopy();
     }
   }
 
