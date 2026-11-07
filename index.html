@@ -1756,5 +1756,104 @@
   new MutationObserver(fix).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
 })();
 </script>
+<!-- Projects: real live sites on the cards. The screenshot stays visible until the live
+     site has fully loaded, so a card never shows a blank, loading or broken frame. -->
+<style>
+  .projects-showcase-section .preview-area .live-frame {
+    position: absolute; top: 0; left: 0; width: 200%; height: 200%;
+    transform: scale(.5); transform-origin: top left;
+    border: 0; pointer-events: none; z-index: 2; background: #08080a;
+    opacity: 0; transition: opacity .9s ease;
+  }
+  .projects-showcase-section .preview-area.live-on .live-frame { opacity: 1; }
+  .projects-showcase-section .preview-area .live-badge {
+    position: absolute; left: 12px; top: 12px; z-index: 3; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 999px;
+    font: 600 10.5px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    color: #d9d9c8; background: rgba(2, 4, 7, .72); border: 1px solid rgba(217, 217, 200, .22); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .5s ease .4s, transform .5s ease .4s;
+  }
+  .projects-showcase-section .preview-area .live-badge i { width: 6px; height: 6px; border-radius: 50%; background: #5bd37a; box-shadow: 0 0 0 3px rgba(91, 211, 122, .2); }
+  .projects-showcase-section .preview-area.live-on .live-badge { opacity: 1; transform: none; }
+</style>
+<script>
+(() => {
+  // An embedded copy of this site (inside its own project card) shows screenshots only.
+  if (window.top !== window.self) return;
+
+  const MAX_LOADING = 2;     // live sites loading at the same time
+  const READY_DELAY = 1500;  // let the page paint after its load event before showing it
+  const GIVE_UP = 20000;     // still not loaded: keep the screenshot
+  let sites = null;
+  let loading = 0;
+  const waiting = [];
+
+  function startNext() {
+    while (loading < MAX_LOADING && waiting.length) {
+      const area = waiting.shift();
+      if (area.__liveWanted && !area.__liveFrame) load(area);
+    }
+  }
+
+  function load(area) {
+    const img = area.querySelector('img.live-shot');
+    const info = img && sites && sites[img.dataset.site];
+    if (!info || !info.frameable) return;
+    loading++;
+    const frame = document.createElement('iframe');
+    frame.className = 'live-frame';
+    frame.title = `${(img.alt || '').replace(/ live preview$/i, '')} (live)`;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.setAttribute('tabindex', '-1');
+    frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
+    let done = false;
+    const finish = () => { if (!done) { done = true; loading--; startNext(); } };
+    const timer = setTimeout(() => { finish(); unload(area); }, GIVE_UP);
+    frame.addEventListener('load', () => {
+      clearTimeout(timer);
+      setTimeout(() => { if (area.__liveFrame === frame) area.classList.add('live-on'); finish(); }, READY_DELAY);
+    }, { once: true });
+    frame.src = info.url;
+    area.__liveFrame = frame;
+    area.appendChild(frame);
+    if (!area.querySelector('.live-badge')) area.insertAdjacentHTML('beforeend', '<span class="live-badge"><i></i>Live</span>');
+  }
+
+  function unload(area) {
+    area.classList.remove('live-on');
+    const frame = area.__liveFrame;
+    area.__liveFrame = null;
+    if (frame) setTimeout(() => frame.remove(), 900); // after the fade back to the screenshot
+  }
+
+  // Load when a card comes near the screen; unload when it is far away (keeps phones light).
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const area = entry.target;
+      area.__liveWanted = entry.isIntersecting;
+      if (entry.isIntersecting) { if (!area.__liveFrame) { waiting.push(area); startNext(); } }
+      else if (area.__liveFrame) unload(area);
+    });
+  }, { rootMargin: '400px 0px' }) : null;
+
+  function scan() {
+    if (!sites || !io) return;
+    document.querySelectorAll('.projects-showcase-section .preview-area').forEach(area => {
+      if (area.__liveSeen) return;
+      const img = area.querySelector('img.live-shot');
+      if (!img || !sites[img.dataset.site] || !sites[img.dataset.site].frameable) return;
+      area.__liveSeen = true;
+      io.observe(area);
+    });
+  }
+
+  fetch('/images/previews/frames.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null))
+    .then(json => { sites = (json && json.sites) || null; scan(); })
+    .catch(() => {});
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
 </body>
 </html>
