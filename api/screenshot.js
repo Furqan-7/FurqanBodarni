@@ -37,6 +37,9 @@ module.exports = async (req, res) => {
     const json = await meta.json();
     const shot = json && json.data && json.data.screenshot && json.data.screenshot.url;
     if (!shot) throw new Error('No screenshot URL');
+    // A protected deployment redirects to a login page: don't show that on a card.
+    const landed = json.data.url && new URL(json.data.url).hostname;
+    if (landed && landed !== new URL(url).hostname) throw new Error(`redirected to ${landed}`);
 
     const img = await fetch(shot);
     if (!img.ok) throw new Error(`image HTTP ${img.status}`);

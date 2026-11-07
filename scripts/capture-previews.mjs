@@ -34,6 +34,9 @@ for (const [key, site] of Object.entries(SITES)) {
   try {
     const res = await page.goto(site.url, { waitUntil: 'networkidle', timeout: 90_000 });
     if (!res || res.status() >= 400) throw new Error(`HTTP ${res && res.status()}`);
+    // A protected deployment redirects to a login page (e.g. vercel.com/login): never use that.
+    const landed = new URL(page.url()).hostname;
+    if (landed !== new URL(site.url).hostname) throw new Error(`redirected to ${landed}`);
     await page.waitForTimeout(site.settle || 3500);
 
     // Scroll through the page so scroll-triggered sections and lazy images appear.
