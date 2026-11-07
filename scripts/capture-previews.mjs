@@ -10,7 +10,7 @@ const SITES = {
   devprep: { url: 'https://dev-prep-frontend.vercel.app/' },
   crevo: { url: 'https://crevo-one-theta.vercel.app/' },
   portfolio: { url: 'https://furqan7.dev/', settle: 9000 }, // intro splash plays first
-  horizon: { url: 'https://horizon-shadox1.vercel.app/' },
+  horizon: { url: 'https://horizon-eight-theta.vercel.app/' },
   fyp: { url: 'https://findyourportfolio.vercel.app/' }
 };
 
@@ -34,6 +34,9 @@ for (const [key, site] of Object.entries(SITES)) {
   try {
     const res = await page.goto(site.url, { waitUntil: 'networkidle', timeout: 90_000 });
     if (!res || res.status() >= 400) throw new Error(`HTTP ${res && res.status()}`);
+    // A protected deployment redirects to a login page (e.g. vercel.com/login): never use that.
+    const landed = new URL(page.url()).hostname;
+    if (landed !== new URL(site.url).hostname) throw new Error(`redirected to ${landed}`);
     await page.waitForTimeout(site.settle || 3500);
 
     // Scroll through the page so scroll-triggered sections and lazy images appear.
