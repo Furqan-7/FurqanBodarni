@@ -1,0 +1,51 @@
+name: Project previews
+
+# Takes fresh screenshots of every project for the Projects cards.
+# Runs every Monday, on demand (Actions → Project previews → Run workflow),
+# and when the capture script itself changes.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 4 * * 1'
+  push:
+    paths:
+      - scripts/capture-previews.mjs
+      - .github/workflows/project-previews.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: project-previews
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright and sharp
+        run: |
+          npm install --no-save --no-package-lock playwright@1.48.2 sharp@0.33.5
+          npx playwright install --with-deps chromium
+
+      - name: Capture screenshots
+        run: node scripts/capture-previews.mjs
+
+      - name: Commit updated screenshots
+        run: |
+          git config user.name "Furqan-7"
+          git config user.email "furqanfurqan6677@gmail.com"
+          git add images/previews
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "chore(previews): refresh project screenshots"
+          git push
