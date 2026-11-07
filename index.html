@@ -1612,6 +1612,20 @@
   .projects-showcase-section .preview-area.shot-failed .live-shot { display: none; }
   @keyframes ps-shimmer { to { background-position: -220% 0; } }
 
+  /* Hover: the tall screenshot scrolls slowly down the page, and back up when the pointer leaves */
+  .projects-showcase-section .project-card .preview-area .live-shot {
+    object-position: 50% 0% !important;
+    transition: scale 1.6s var(--ps-ease), opacity .6s ease, object-position 1.4s cubic-bezier(.5, 0, .2, 1) !important;
+    transition-delay: calc(var(--ps-d, 0ms) + 180ms), 0ms, 0ms !important;
+  }
+  @media (hover: hover) {
+    .projects-showcase-section .project-card:hover .preview-area .live-shot {
+      object-position: 50% 100% !important;
+      transition: scale 1.6s var(--ps-ease), opacity .6s ease, object-position 7s cubic-bezier(.45, 0, .55, 1) !important;
+      transition-delay: 0ms, 0ms, .25s !important;
+    }
+  }
+
   /* Preview drifts gently against the scroll where supported */
   @supports (animation-timeline: view()) {
     .projects-showcase-section .project-card .preview-area .live-shot { scale: 1.06; animation: ps-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
@@ -1678,49 +1692,25 @@
 </script>
 
 <script>
-// Project screenshots: /api/screenshot first, then a public screenshot service,
-// then a named placeholder, so a card never shows a broken frame.
+// Project screenshots: our own high-resolution captures (images/previews, refreshed weekly by
+// the "Project previews" GitHub Action), then the /api/screenshot function, then a named
+// placeholder, so a card never shows a broken or half-loaded picture.
 (() => {
-  const SITES = {
-    brainly: 'https://brainlyai.me/',
-    devprep: 'https://dev-prep-frontend.vercel.app/',
-    crevo: 'https://crevo-one-theta.vercel.app/',
-    portfolio: 'https://furqan7.dev/',
-    horizon: 'https://horizon-shadox1.vercel.app/',
-    fyp: 'https://findyourportfolio.vercel.app/'
-  };
-  const mshots = (url, n) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=1280&h=800${n ? `&r=${n}` : ''}`;
-
   function area(img) { return img.closest('.preview-area'); }
   function name(img) { return (img.getAttribute('alt') || '').replace(/ live preview$/i, ''); }
 
   function onLoad(img) {
     const a = area(img); if (!a) return;
-    // The public service answers with a small "generating" image the first time; retry a few times.
-    if (img.dataset.stage === 'mshots' && img.naturalWidth && img.naturalWidth < 600) {
-      const tries = Number(img.dataset.tries || 0);
-      if (tries < 4) {
-        img.dataset.tries = tries + 1;
-        setTimeout(() => { img.src = mshots(SITES[img.dataset.site], tries + 1); }, 3500);
-        return;
-      }
-    }
     a.classList.remove('shot-failed');
     a.classList.add('shot-loaded');
   }
 
   function onError(img) {
     const a = area(img); if (!a) return;
-    const url = SITES[img.dataset.site];
-    if (url && img.dataset.stage !== 'mshots') {
-      img.dataset.stage = 'mshots';
-      img.src = mshots(url, 0);
-      return;
-    }
-    const fails = Number(img.dataset.fails || 0);
-    if (url && fails < 2) {
-      img.dataset.fails = fails + 1;
-      setTimeout(() => { img.src = mshots(url, `e${fails + 1}`); }, 2500);
+    const site = img.dataset.site;
+    if (site && img.dataset.stage !== 'api') {
+      img.dataset.stage = 'api';
+      img.src = `/api/screenshot?site=${site}`;
       return;
     }
     a.dataset.name = name(img);

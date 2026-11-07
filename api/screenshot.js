@@ -1,10 +1,9 @@
 // Vercel serverless function: a fresh screenshot of one of the portfolio's projects.
 //
-// Live <iframe> previews break when a site forbids being framed (Crevo sends
-// `frame-ancestors 'none'`) or loads slowly, so the project cards show a
-// screenshot instead. Vercel's edge caches each image for 12 hours, so the
-// screenshot service is called about twice a day per project, however many
-// people visit.
+// Backup for the project cards. Their main images are high-resolution captures in
+// images/previews/, refreshed weekly by the "Project previews" GitHub Action; this
+// function is used only if one of those files is missing. Vercel's edge caches each
+// image for 12 hours.
 //
 // Usage: /api/screenshot?site=crevo
 
@@ -16,8 +15,6 @@ const SITES = {
   horizon: 'https://horizon-shadox1.vercel.app/',
   fyp: 'https://findyourportfolio.vercel.app/'
 };
-
-const fallbackUrl = url => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=1280&h=800`;
 
 module.exports = async (req, res) => {
   const key = String((req.query && req.query.site) || '').toLowerCase();
@@ -50,10 +47,9 @@ module.exports = async (req, res) => {
     res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=43200, stale-while-revalidate=604800');
     res.status(200).send(Buffer.from(await img.arrayBuffer()));
   } catch (err) {
-    // Hand the browser a second screenshot service; cache this answer only briefly.
+    // No half-loaded or placeholder images: the card shows the project name instead.
     res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=600');
-    res.setHeader('Location', fallbackUrl(url));
-    res.status(302).end();
+    res.status(502).json({ error: String((err && err.message) || err) });
   }
 };
 
