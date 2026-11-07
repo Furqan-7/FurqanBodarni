@@ -15,6 +15,10 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/resume.pdf", "destination": "/assets/FurqanBodarni.pdf", "permanent": false },
+    { "source": "/assets/resume.pdf", "destination": "/assets/FurqanBodarni.pdf", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
