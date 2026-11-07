@@ -12,7 +12,7 @@ const SITES = {
   devprep: 'https://dev-prep-frontend.vercel.app/',
   crevo: 'https://crevo-one-theta.vercel.app/',
   portfolio: 'https://furqan7.dev/',
-  horizon: 'https://horizon-shadox1.vercel.app/',
+  horizon: 'https://horizon-eight-theta.vercel.app/',
   fyp: 'https://findyourportfolio.vercel.app/'
 };
 

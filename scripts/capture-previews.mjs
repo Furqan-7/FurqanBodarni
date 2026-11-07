@@ -10,7 +10,7 @@ const SITES = {
   devprep: { url: 'https://dev-prep-frontend.vercel.app/' },
   crevo: { url: 'https://crevo-one-theta.vercel.app/' },
   portfolio: { url: 'https://furqan7.dev/', settle: 9000 }, // intro splash plays first
-  horizon: { url: 'https://horizon-shadox1.vercel.app/' },
+  horizon: { url: 'https://horizon-eight-theta.vercel.app/' },
   fyp: { url: 'https://findyourportfolio.vercel.app/' }
 };
 

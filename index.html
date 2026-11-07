@@ -1612,7 +1612,8 @@
   .projects-showcase-section .preview-area.shot-failed .live-shot { display: none; }
   @keyframes ps-shimmer { to { background-position: -220% 0; } }
 
-  /* Hover: the tall screenshot scrolls slowly down the page, and back up when the pointer leaves */
+  /* Hover: after 3 seconds on the card (so the top of the page, with its navigation, is seen first),
+     the tall screenshot scrolls slowly down the page, and back up when the pointer leaves */
   .projects-showcase-section .project-card .preview-area .live-shot {
     object-position: 50% 0% !important;
     transition: scale 1.6s var(--ps-ease), opacity .6s ease, object-position 1.4s cubic-bezier(.5, 0, .2, 1) !important;
@@ -1622,7 +1623,7 @@
     .projects-showcase-section .project-card:hover .preview-area .live-shot {
       object-position: 50% 100% !important;
       transition: scale 1.6s var(--ps-ease), opacity .6s ease, object-position 7s cubic-bezier(.45, 0, .55, 1) !important;
-      transition-delay: 0ms, 0ms, .25s !important;
+      transition-delay: 0ms, 0ms, 3s !important;
     }
   }
 
