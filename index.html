@@ -60,6 +60,10 @@
     
     <!-- End of headEnd -->
 <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Mrs+Saint+Delafield&family=Alex+Brush&family=Rouge+Script&display=swap" rel="stylesheet">
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 </head>
 <body>
 	
@@ -1575,10 +1579,10 @@
     transition: clip-path 1.2s var(--ps-ease); transition-delay: calc(var(--ps-d, 0ms) + 180ms);
   }
   .projects-showcase-section.ps-motion .project-card.ps-in .preview-area { clip-path: inset(0 0 0 0 round 12px); }
-  .projects-showcase-section.ps-motion .project-card .preview-area iframe {
-    scale: 1.16; transition: scale 1.6s var(--ps-ease); transition-delay: calc(var(--ps-d, 0ms) + 180ms);
+  .projects-showcase-section.ps-motion .project-card .preview-area .live-shot {
+    scale: 1.16; transition: scale 1.6s var(--ps-ease), opacity .6s ease; transition-delay: calc(var(--ps-d, 0ms) + 180ms), 0ms;
   }
-  .projects-showcase-section.ps-motion .project-card.ps-in .preview-area iframe { scale: 1.06; }
+  .projects-showcase-section.ps-motion .project-card.ps-in .preview-area .live-shot { scale: 1.06; }
 
   /* Title, description and stack follow one after another */
   .projects-showcase-section.ps-motion .project-card .project-info > * {
@@ -1590,9 +1594,27 @@
   .projects-showcase-section.ps-motion .project-card .project-info > *:nth-child(3) { transition-delay: calc(var(--ps-d, 0ms) + 580ms); }
   .projects-showcase-section.ps-motion .project-card.ps-in .project-info > * { opacity: 1; translate: 0 0; }
 
+  /* Screenshot previews: shimmer while loading, fade in when ready, named card if both sources fail */
+  .projects-showcase-section .preview-area .live-shot { opacity: 0; transition: opacity .6s ease; }
+  .projects-showcase-section .preview-area.shot-loaded .live-shot { opacity: 1; }
+  .projects-showcase-section .preview-area::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: linear-gradient(100deg, rgba(217, 217, 200, .03) 30%, rgba(217, 217, 200, .09) 50%, rgba(217, 217, 200, .03) 70%) 0 0 / 220% 100%;
+    animation: ps-shimmer 1.6s linear infinite;
+  }
+  .projects-showcase-section .preview-area.shot-loaded::before { display: none; }
+  .projects-showcase-section .preview-area .live-shot { position: relative; z-index: 1; }
+  .projects-showcase-section .preview-area.shot-failed::before {
+    display: grid; place-items: center; animation: none; content: attr(data-name);
+    font: 600 clamp(22px, 3vw, 34px) "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: -.03em; text-transform: uppercase;
+    color: rgba(217, 217, 200, .75); background: radial-gradient(120% 90% at 50% 0%, rgba(217, 217, 200, .08), transparent 60%), #08080a;
+  }
+  .projects-showcase-section .preview-area.shot-failed .live-shot { display: none; }
+  @keyframes ps-shimmer { to { background-position: -220% 0; } }
+
   /* Preview drifts gently against the scroll where supported */
   @supports (animation-timeline: view()) {
-    .projects-showcase-section .project-card .preview-area iframe { scale: 1.06; animation: ps-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    .projects-showcase-section .project-card .preview-area .live-shot { scale: 1.06; animation: ps-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     @keyframes ps-drift { from { translate: 0 0; } to { translate: 0 -12px; } }
   }
 
@@ -1600,7 +1622,8 @@
     .projects-showcase-section.ps-motion .project-card { --ps-x: 0px !important; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .projects-showcase-section .project-card .preview-area iframe { animation: none !important; }
+    .projects-showcase-section .project-card .preview-area .live-shot { animation: none !important; }
+    .projects-showcase-section .preview-area::before { animation: none !important; }
   }
 </style>
 <script>
@@ -1651,6 +1674,72 @@
   }
   scan();
   new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+
+<script>
+// Project screenshots: /api/screenshot first, then a public screenshot service,
+// then a named placeholder, so a card never shows a broken frame.
+(() => {
+  const SITES = {
+    brainly: 'https://brainlyai.me/',
+    devprep: 'https://dev-prep-frontend.vercel.app/',
+    crevo: 'https://crevo-one-theta.vercel.app/',
+    portfolio: 'https://furqan7.dev/',
+    horizon: 'https://horizon-shadox1.vercel.app/',
+    fyp: 'https://findyourportfolio.vercel.app/'
+  };
+  const mshots = (url, n) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=1280&h=800${n ? `&r=${n}` : ''}`;
+
+  function area(img) { return img.closest('.preview-area'); }
+  function name(img) { return (img.getAttribute('alt') || '').replace(/ live preview$/i, ''); }
+
+  function onLoad(img) {
+    const a = area(img); if (!a) return;
+    // The public service answers with a small "generating" image the first time; retry a few times.
+    if (img.dataset.stage === 'mshots' && img.naturalWidth && img.naturalWidth < 600) {
+      const tries = Number(img.dataset.tries || 0);
+      if (tries < 4) {
+        img.dataset.tries = tries + 1;
+        setTimeout(() => { img.src = mshots(SITES[img.dataset.site], tries + 1); }, 3500);
+        return;
+      }
+    }
+    a.classList.remove('shot-failed');
+    a.classList.add('shot-loaded');
+  }
+
+  function onError(img) {
+    const a = area(img); if (!a) return;
+    const url = SITES[img.dataset.site];
+    if (url && img.dataset.stage !== 'mshots') {
+      img.dataset.stage = 'mshots';
+      img.src = mshots(url, 0);
+      return;
+    }
+    const fails = Number(img.dataset.fails || 0);
+    if (url && fails < 2) {
+      img.dataset.fails = fails + 1;
+      setTimeout(() => { img.src = mshots(url, `e${fails + 1}`); }, 2500);
+      return;
+    }
+    a.dataset.name = name(img);
+    a.classList.add('shot-failed');
+  }
+
+  document.addEventListener('load', e => { if (e.target.matches && e.target.matches('img.live-shot')) onLoad(e.target); }, true);
+  document.addEventListener('error', e => { if (e.target.matches && e.target.matches('img.live-shot')) onError(e.target); }, true);
+
+  // Images that finished before this script ran
+  function sweep() {
+    document.querySelectorAll('img.live-shot').forEach(img => {
+      if (img.__shotSeen) return;
+      img.__shotSeen = true;
+      if (img.complete) { img.naturalWidth ? onLoad(img) : onError(img); }
+    });
+  }
+  sweep();
+  new MutationObserver(sweep).observe(document.documentElement, { childList: true, subtree: true });
 })();
 </script>
 
