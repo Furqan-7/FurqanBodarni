@@ -1,0 +1,29 @@
+{
+  "updated": "2026-11-07T14:37:33.999Z",
+  "sites": {
+    "brainly": {
+      "url": "https://brainlyai.me/",
+      "frameable": true
+    },
+    "devprep": {
+      "url": "https://dev-prep-frontend.vercel.app/",
+      "frameable": true
+    },
+    "crevo": {
+      "url": "https://crevo-one-theta.vercel.app/",
+      "frameable": false
+    },
+    "portfolio": {
+      "url": "https://furqan7.dev/",
+      "frameable": true
+    },
+    "horizon": {
+      "url": "https://horizon-eight-theta.vercel.app/",
+      "frameable": true
+    },
+    "fyp": {
+      "url": "https://findyourportfolio.vercel.app/",
+      "frameable": true
+    }
+  }
+}
